@@ -1,16 +1,18 @@
 var AWS = require('aws-sdk');
-var dynamodb = new AWS.DynamoDB({region: 'ap-northeast-2'});
-
+    AWS.config.update({
+        region: "ap-northeast-2"
+    });
+    
+console.log("パラメーターをセットするよう");
+var docClient = new AWS.DynamoDB.DocumentClient();
 var params = {
-    Limit: 100
+    TableName: "zashi_practicedb",
+    Key: {
+        id : "SK5026926"
+    }
 };
 
-var params = {TableName:'zashi_practice'};
-dynamodb.describeTable(params, function(err, data) {
-    if (err) {
-        console.log(err, err.stack);
-    } else {
-        console.log(data);
-        // php.var_dump(data);
-    }
+docClient.get(params, function(err, data) {
+    console.log("dynamo_data:", data);
+    console.log("dynamo_err:", err);
 });
